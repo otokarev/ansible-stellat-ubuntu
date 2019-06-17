@@ -1,0 +1,27 @@
+---
+- hosts: stellar
+  sudo: true
+  vars:
+  tasks:
+  - name: Install prerequisites
+    apt:
+      name: "{{item}}"
+      state: present
+    loop:
+      - apt-transport-https
+      - vim
+      - pv
+      - haproxy
+      - less
+      - netcat
+  - name: Download and install the public signing key
+    shell: wget -qO - https://apt.stellar.org/SDF.asc | apt-key add -
+  - name: Save the repository definition to /etc/apt/sources.list.d/SDF.list
+    shell: echo "deb https://apt.stellar.org/public stable/" | tee -a /etc/apt/sources.list.d/SDF.list
+  - name: Install Quickstart
+    shell: apt update && apt-get install stellar-quickstart -y
+    ignore_errors: yes
+  - name: Migrate Horizon DB
+    shell: . /etc/default/stellar-horizon  /etc/default/stellar-horizon db migrate up
+
+

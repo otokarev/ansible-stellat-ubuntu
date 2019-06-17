@@ -1,0 +1,33 @@
+all:
+    vars:
+        ansible_connection: ssh
+    children:
+        stellar:
+            vars:
+                sudo: true
+                # HAproxy
+                haproxy_ip: "104.199.93.164"
+                haproxy_ports:
+                  - name: stat
+                    port: 1936
+                  - name: stellar-horizon
+                    port: 80
+                    servers:
+                      - name: "stellar-01"
+                        address: "10.132.0.9"
+                        port: "8000"
+                      #- name: "stellar-02"
+                      #  address: ""
+                      #  port: "8000"
+                      - name: "ext-horizon"
+                        address: "horizon.stellar.org"
+                        port: "443"
+                        options: "backup check inter 15s ssl verify none"
+            hosts:
+                stellar-1:
+                    sudo: true
+                    ansible_user: otokarev
+                    ansible_host: 35.241.201.121
+                default:
+                    remote_user: vagrant
+                    ansible_user: vagrant
