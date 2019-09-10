@@ -24,10 +24,14 @@ all:
                         port: "443"
                         options: "backup check inter 15s ssl verify none"
             hosts:
-                stellar-1:
+                #stellar-1:
+                #    sudo: true
+                #    ansible_user: otokarev
+                #    ansible_host: 35.241.201.121
+                stellar-2:
                     sudo: true
                     ansible_user: otokarev
-                    ansible_host: 35.241.201.121
-                default:
-                    remote_user: vagrant
-                    ansible_user: vagrant
+                    ansible_host: 34.76.157.143
+                #default:
+                #    remote_user: vagrant
+                #    ansible_user: vagrant
